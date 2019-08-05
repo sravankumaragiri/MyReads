@@ -41,13 +41,13 @@ class BooksApp extends React.Component {
     this.setState({searchbooks: []});  
     this.setState({typed: event.target.value});
     
-    let rquery = this.state.typed;
+    let rquery = event.target.value;
     console.log(rquery) ;
     if(rquery!==""){
       console.log("request "+rquery);
     BooksAPI.search(rquery)
     .then((rbooks) => {
-      if(rbooks.length>0){     
+      if(rbooks.length>0 && rquery!==""){     
       this.setState({searchbooks: [...rbooks]});
       }
       else{
@@ -55,6 +55,9 @@ class BooksApp extends React.Component {
       }
     })  
   } 
+  else{
+    this.setState({searchbooks: []});  
+  }
   
   }
 
