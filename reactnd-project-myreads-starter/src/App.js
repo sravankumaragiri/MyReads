@@ -1,6 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import {DebounceInput} from 'react-debounce-input';
 
 class BooksApp extends React.Component {
  
@@ -108,9 +109,13 @@ class BooksApp extends React.Component {
 
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
-                */}
+              
                 <input type="text" value={this.state.typed} placeholder="Search by title or author" onChange={this.serachBook}/>
-
+                 */ <DebounceInput placeholder="Search by title or author" 
+          minLength={0}
+          debounceTimeout={300}
+          onChange={this.serachBook} />
+        }
               </div>
             </div>
             <div className="search-books-results">
@@ -125,16 +130,16 @@ class BooksApp extends React.Component {
                             <div className="book-shelf-changer">
                               <select onChange={this.handleChange}>
                                 <option value="move" disabled>Move to...</option>
-                                <option value="none">None</option>
-                                <option value={`${book.title}:currentlyReading`} >Currently Reading</option>
-                                <option value={`${book.title}:wantToRead`}>Want to Read</option>
-                                <option value={`${book.title}:read`}>Read</option>
+                                <option value="none"  selected={`${book.shelf && book.shelf}==='' ? 'selected'  : ''`}>None</option>
+                                <option value={`${book.title}:currentlyReading` } selected={`${book.shelf && book.shelf}==='currentlyReading' ? 'selected' : ''`}>Currently Reading</option>
+                                <option value={`${book.title}:wantToRead`} selected={`${book.shelf && book.shelf}==='wantToRead' ? 'selected' : ''`}>Want to Read</option>
+                                <option value={`${book.title}:read`} selected={`${book.shelf && book.shelf}==='read' ? 'selected'  : ''`}>Read</option>
                                 
                               </select>
                             </div>
                           </div>
                           <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
+                          <div className="book-authors">{Array.isArray(book.authors)?book.authors.join(', '):''}</div>
                         </div>
                 </li>)}
         )}
@@ -170,7 +175,7 @@ class BooksApp extends React.Component {
                             </div>
                           </div>
                           <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
+                          <div className="book-authors">{Array.isArray(book.authors)?book.authors.join(', '):''}</div>
                         </div>
                       </li>)
         )}
@@ -199,7 +204,7 @@ class BooksApp extends React.Component {
                             </div>
                           </div>
                           <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
+                          <div className="book-authors">{Array.isArray(book.authors)?book.authors.join(', '):''}</div>
                         </div>
                       </li>   
                        ) )}                   
@@ -227,7 +232,7 @@ class BooksApp extends React.Component {
                             </div>
                           </div>
                           <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
+                          <div className="book-authors">{Array.isArray(book.authors)?book.authors.join(', '):''}</div>
                         </div>
                       </li>
                        ) ) }
