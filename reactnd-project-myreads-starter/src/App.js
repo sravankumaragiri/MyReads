@@ -38,11 +38,11 @@ class BooksApp extends React.Component {
     //showSearchPage: false
   //}
 
-  serachBook = (event)=>{
+  serachBook = (query)=>{
     this.setState({searchbooks: []});  
-    this.setState({typed: event.target.value});
+    this.setState({typed: query.trim()});
     
-    let rquery = event.target.value;
+    let rquery = query.trim();
     console.log(rquery) ;
     if(rquery!==""){
       console.log("request "+rquery);
@@ -113,8 +113,7 @@ class BooksApp extends React.Component {
                 <input type="text" value={this.state.typed} placeholder="Search by title or author" onChange={this.serachBook}/>
                  */ <DebounceInput placeholder="Search by title or author" 
           minLength={0}
-          debounceTimeout={300}
-          onChange={this.serachBook} />
+          debounceTimeout={300} onChange={(event) => this.serachBook(event.target.value)}/>
         }
               </div>
             </div>
