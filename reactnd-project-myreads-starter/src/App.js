@@ -44,13 +44,18 @@ class BooksApp extends React.Component {
     let rquery = this.state.typed;
     console.log(rquery) ;
     if(rquery!==""){
+      console.log("request "+rquery);
     BooksAPI.search(rquery)
     .then((rbooks) => {
       if(rbooks.length>0){     
-      this.setState({searchbooks: [...rbooks]});  
+      this.setState({searchbooks: [...rbooks]});
+      }
+      else{
+        this.setState({searchbooks: []});  
       }
     })  
   } 
+  
   }
 
   handleChange=(event) =>{
@@ -108,18 +113,17 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
               
-              {
-                
+              {                
                 this.state.searchbooks.map((book)=>{
                      return (<li key={book.id}>
                         <div className="book">
                           <div className="book-top">
-                          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+                          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(book.imageLinks&&book.imageLinks.smallThumbnail)?book.imageLinks.smallThumbnail:''})` }}></div>
                             <div className="book-shelf-changer">
                               <select onChange={this.handleChange}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="none">None</option>
-                                <option value={`${book.title}:currentlyReading`}>Currently Reading</option>
+                                <option value={`${book.title}:currentlyReading`} >Currently Reading</option>
                                 <option value={`${book.title}:wantToRead`}>Want to Read</option>
                                 <option value={`${book.title}:read`}>Read</option>
                                 
@@ -155,7 +159,7 @@ class BooksApp extends React.Component {
                               <select onChange={this.handleChange}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="none">None</option>
-                                <option value={`${book.title}:currentlyReading`}>Currently Reading</option>
+                                <option value={`${book.title}:currentlyReading`} selected>Currently Reading</option>
                                 <option value={`${book.title}:wantToRead`}>Want to Read</option>
                                 <option value={`${book.title}:read`}>Read</option>
                                 
@@ -185,7 +189,7 @@ class BooksApp extends React.Component {
                                 <option value="move" disabled>Move to...</option>
                                 <option value="none">None</option>
                                 <option value={`${book.title}:currentlyReading`}>Currently Reading</option>
-                                <option value={`${book.title}:wantToRead`}>Want to Read</option>
+                                <option value={`${book.title}:wantToRead`} selected>Want to Read</option>
                                 <option value={`${book.title}:read`}>Read</option>
                                 
                               </select>
@@ -214,7 +218,7 @@ class BooksApp extends React.Component {
                                 <option value="none">None</option>
                                 <option value={`${book.title}:currentlyReading`}>Currently Reading</option>
                                 <option value={`${book.title}:wantToRead`}>Want to Read</option>
-                                <option value={`${book.title}:read`}>Read</option>
+                                <option value={`${book.title}:read`} selected>Read</option>
                                 
                               </select>
                             </div>
